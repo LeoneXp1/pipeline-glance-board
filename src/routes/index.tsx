@@ -36,6 +36,8 @@ const stageClass: Record<string, string> = {
   Qualificação: "bg-accent text-accent-foreground",
   Proposta: "bg-primary/15 text-primary",
   Negociação: "bg-primary/25 text-primary",
+  "Em contato": "bg-accent text-accent-foreground",
+  "Em negociação": "bg-primary/25 text-primary",
   Fechado: "bg-primary text-primary-foreground",
   Perdido: "bg-destructive/15 text-destructive",
 };
