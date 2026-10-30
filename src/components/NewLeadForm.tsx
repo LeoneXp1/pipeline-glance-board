@@ -27,7 +27,7 @@ export function NewLeadForm() {
     e.preventDefault();
     setError(null);
     const parsed = schema.safeParse(form);
-    if (!parsed.success) return setError(parsed.error.issues[0].message);
+    if (!parsed.success) return setError(parsed.error.issues[0]?.message ?? "Dados inválidos");
     setSaving(true);
     const { error } = await leadsDb.from("leads").insert(parsed.data);
     setSaving(false);
