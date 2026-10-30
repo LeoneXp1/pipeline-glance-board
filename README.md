@@ -25,3 +25,8 @@ npm run dev
 A IA sugeriu que eu fizesse uma tela que fosse apenas para anotações
 Eu aderi as anotações, porém fiz uma integração com o Supabase para atualizar tanto em um quanto no outro.
 E deixei de lado a questão de criar login e etc.
+
+
+1. Os dados ficam armazenados diretamente no banco de dados do Supabase (na nuvem).
+
+2. A linha é removida permanentemente do banco de dados e deixará de aparecer no sistema CRM assim que a página for atualizada.
