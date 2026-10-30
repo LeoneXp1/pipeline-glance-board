@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- The leads list reads from the user's own external project (src/lib/external-supabase.ts), not Lovable Cloud — the user maintains that table there.
