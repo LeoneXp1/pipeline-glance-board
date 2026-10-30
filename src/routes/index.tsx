@@ -1,11 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { leadsDb } from "@/lib/external-supabase";
 
 const leadsQuery = queryOptions({
   queryKey: ["leads"],
+  staleTime: 0,
   queryFn: async () => {
-    const { data, error } = await supabase
+    const { data, error } = await leadsDb
       .from("leads")
       .select("id, nome, empresa, valor, etapa")
       .order("created_at", { ascending: false });
