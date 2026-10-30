@@ -22,3 +22,6 @@ cd <repository-name>
 npm i
 npm run dev
 ```
+A IA sugeriu que eu fizesse uma tela que fosse apenas para anotações
+Eu aderi as anotações, porém fiz uma integração com o Supabase para atualizar tanto em um quanto no outro.
+E deixei de lado a questão de criar login e etc.
