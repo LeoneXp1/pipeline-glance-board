@@ -1,5 +1,6 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { queryOptions, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { leadsDb } from "@/lib/external-supabase";
 import { NewLeadForm } from "@/components/NewLeadForm";
 
@@ -46,7 +47,22 @@ const stageClass: Record<string, string> = {
 
 function Index() {
   const { data: leads } = useSuspenseQuery(leadsQuery);
+  const qc = useQueryClient();
+  const [savingId, setSavingId] = useState<number | null>(null);
+  const [stageError, setStageError] = useState<string | null>(null);
   const total = leads.reduce((s, l) => s + Number(l.valor), 0);
+
+  async function changeStage(id: number, etapa: string) {
+    setStageError(null);
+    setSavingId(id);
+    const { error } = await leadsDb.from("leads").update({ etapa }).eq("id", id);
+    setSavingId(null);
+    if (error) {
+      setStageError("Não foi possível salvar a etapa: " + error.message);
+      return;
+    }
+    await qc.invalidateQueries({ queryKey: ["leads"] });
+  }
 
   return (
     <main className="min-h-screen bg-background px-6 py-12">
@@ -83,11 +99,19 @@ function Index() {
                     {brl.format(Number(l.valor))}
                   </td>
                   <td className="px-5 py-4">
-                    <span
-                      className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${stageClass[l.etapa] ?? "bg-secondary text-secondary-foreground"}`}
+                    <select
+                      value={l.etapa}
+                      onChange={(e) => changeStage(l.id, e.target.value)}
+                      aria-label={`Etapa de ${l.nome}`}
+                      disabled={savingId === l.id}
+                      className={`inline-flex h-8 rounded-full border-0 px-3 py-1 text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-ring ${stageClass[l.etapa] ?? "bg-secondary text-secondary-foreground"}`}
                     >
-                      {l.etapa}
-                    </span>
+                      {(Array.from(new Set(["Novo", "Em contato", "Fechado", l.etapa]))).map((e) => (
+                        <option key={e} value={e}>
+                          {e}
+                        </option>
+                      ))}
+                    </select>
                   </td>
                 </tr>
               ))}
@@ -101,6 +125,7 @@ function Index() {
             </tbody>
           </table>
         </div>
+        {stageError && <p className="mt-3 text-sm text-destructive">{stageError}</p>}
       </div>
     </main>
   );
