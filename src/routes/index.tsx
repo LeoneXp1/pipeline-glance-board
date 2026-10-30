@@ -125,6 +125,7 @@ function Index() {
             </tbody>
           </table>
         </div>
+        {stageError && <p className="mt-3 text-sm text-destructive">{stageError}</p>}
       </div>
     </main>
   );
