@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { leadsDb } from "@/lib/external-supabase";
+import { NewLeadForm } from "@/components/NewLeadForm";
 
 const leadsQuery = queryOptions({
   queryKey: ["leads"],
@@ -60,6 +61,8 @@ function Index() {
             <p className="text-2xl font-semibold text-foreground">{brl.format(total)}</p>
           </div>
         </header>
+
+        <NewLeadForm />
 
         <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
           <table className="w-full text-left text-sm">
